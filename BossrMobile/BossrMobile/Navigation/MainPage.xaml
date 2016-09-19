@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:navigation="clr-namespace:BossrMobile.Navigation;assembly=BossrMobile"
+             xmlns:pages="clr-namespace:BossrMobile.Pages;assembly=BossrMobile"
+             x:Class="BossrMobile.Navigation.MainPage">
+  <MasterDetailPage.Master>
+    <navigation:MasterPage x:Name="masterPage" />
+  </MasterDetailPage.Master>
+  <MasterDetailPage.Detail>
+    <NavigationPage>
+      <x:Arguments>
+        <pages:WorldsPage />
+      </x:Arguments>
+    </NavigationPage>
+  </MasterDetailPage.Detail>
+</MasterDetailPage>

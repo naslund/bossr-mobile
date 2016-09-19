@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BossrMobile.Pages.UpcomingPage"
+             Title="Upcoming">
+  <ListView x:Name="ListView" ItemsSource="{Binding Upcoming}" IsPullToRefreshEnabled="True" Refreshing="ListView_OnRefreshing" HasUnevenRows="True" ItemTapped="ListView_OnItemTapped" IsRefreshing="{Binding IsLoading}" SeparatorVisibility="None">
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <StackLayout>
+            <StackLayout Orientation="Horizontal">
+              <StackLayout BackgroundColor="{Binding CategoryColor}" WidthRequest="100" MinimumWidthRequest="100">
+                <Label Text="{Binding CategoryName}" TextColor="White" FontAttributes="Bold" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+              </StackLayout>
+              <StackLayout Padding="5">
+                <Label Text="{Binding CreatureName}" TextColor="#212121" />
+                <Label Text="{Binding TimeBeforeSpawnable}" TextColor="#727272" />
+              </StackLayout>
+            </StackLayout>
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+  </ListView>
+</ContentPage>
