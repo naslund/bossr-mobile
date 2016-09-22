@@ -12,11 +12,11 @@ namespace BossrMobile.Services
     public class RestService
     {
         private readonly HttpClient client = new HttpClient();
-        private readonly Uri uri = new Uri("https://bossr.azurewebsites.net/api/");
+        private readonly Uri uri = new Uri("https://bossr.azurewebsites.net/api");
 
-        public async Task<IEnumerable<World>> ReadWorldsAsync()
+        public async Task<IEnumerable<World>> GetWorldsAsync()
         {
-            HttpResponseMessage response = await client.GetAsync(uri + "worlds");
+            HttpResponseMessage response = await client.GetAsync($"{uri}/worlds");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -26,9 +26,21 @@ namespace BossrMobile.Services
             return null;
         }
 
-        public async Task<IEnumerable<Creature>> ReadCreaturesAsync()
+        public async Task<IEnumerable<Spawn>> GetLatestWorldSpawnsAsync(int id)
         {
-            HttpResponseMessage response = await client.GetAsync(uri + "creatures");
+            HttpResponseMessage response = await client.GetAsync($"{uri}/worlds/{id}/spawns/latest");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<Spawn>>(content);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Creature>> GetCreaturesAsync()
+        {
+            HttpResponseMessage response = await client.GetAsync($"{uri}/creatures");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

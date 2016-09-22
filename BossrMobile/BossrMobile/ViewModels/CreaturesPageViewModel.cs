@@ -38,7 +38,7 @@ namespace BossrMobile.ViewModels
         public async Task ReadCreatures()
         {
             IsLoading = true;
-            Creatures = await App.RestService.ReadCreaturesAsync();
+            Creatures = await App.RestService.GetCreaturesAsync();
             IsLoading = false;
         }
 

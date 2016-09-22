@@ -13,8 +13,8 @@
                 <Label Text="{Binding CategoryName}" TextColor="White" FontAttributes="Bold" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
               </StackLayout>
               <StackLayout Padding="5">
-                <Label Text="{Binding CreatureName}" TextColor="#212121" />
-                <Label Text="{Binding TimeLeftH}" TextColor="#727272" />
+                <Label Text="{Binding CreatureName}" />
+                <Label Text="{Binding TimeLeft}" />
               </StackLayout>
             </StackLayout>
           </StackLayout>

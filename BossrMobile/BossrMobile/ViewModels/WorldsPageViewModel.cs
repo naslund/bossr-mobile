@@ -36,7 +36,7 @@ namespace BossrMobile.ViewModels
         public async Task ReadWorlds()
         {
             IsLoading = true;
-            Worlds = await App.RestService.ReadWorldsAsync();
+            Worlds = await App.RestService.GetWorldsAsync();
             IsLoading = false;
         }
 
