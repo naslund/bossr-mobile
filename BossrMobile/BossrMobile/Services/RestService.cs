@@ -26,6 +26,30 @@ namespace BossrMobile.Services
             return null;
         }
 
+        public async Task<IEnumerable<Category>> GetCategoriesAsync()
+        {
+            HttpResponseMessage response = await client.GetAsync($"{uri}/categories");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<Category>>(content);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Spawn>> GetRecentWorldSpawnsAsync(int id)
+        {
+            HttpResponseMessage response = await client.GetAsync($"{uri}/worlds/{id}/spawns/recent");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<Spawn>>(content);
+            }
+
+            return null;
+        }
+
         public async Task<IEnumerable<Spawn>> GetLatestWorldSpawnsAsync(int id)
         {
             HttpResponseMessage response = await client.GetAsync($"{uri}/worlds/{id}/spawns/latest");

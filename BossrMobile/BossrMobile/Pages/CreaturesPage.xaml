@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BossrMobile.Pages.CreaturesPage"
              Title="Creatures">
-  <ListView ItemsSource="{Binding Creatures}" SeparatorVisibility="None" ItemTapped="ListView_OnItemTapped" Refreshing="ListView_OnRefreshing" IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsLoading}">
+  <ListView ItemsSource="{Binding Creatures}" 
+            ItemTapped="ListView_OnItemTapped" 
+            Refreshing="ListView_OnRefreshing" 
+            IsPullToRefreshEnabled="True" 
+            IsRefreshing="{Binding IsLoading}">
     <ListView.ItemTemplate>
       <DataTemplate>
         <TextCell Text="{Binding Name}" />

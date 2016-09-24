@@ -38,11 +38,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\DateTimeOffsetToHoursAgoConverter.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Creature.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\StatusItems\RecentItem.cs" />
     <Compile Include="Models\Spawn.cs" />
-    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\StatusItems\SpawnableItem.cs" />
+    <Compile Include="Models\StatusItems\UpcomingItem.cs" />
     <Compile Include="Models\World.cs" />
     <Compile Include="Navigation\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -97,6 +100,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Humanizer, Version=2.0.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Humanizer.Core.2.0.1\lib\portable-win+net45+wp8+wpa81\Humanizer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>

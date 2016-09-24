@@ -16,6 +16,9 @@ namespace BossrMobile.Pages
         public RecentPage(World selectedWorld)
         {
             InitializeComponent();
+
+            Icon = Device.OnPlatform("today.png", "", ""); // Todo: -> XAML
+
             BindingContext = new RecentPageViewModel();
             RecentPageViewModel.SelectedWorld = selectedWorld;
         }
@@ -24,12 +27,12 @@ namespace BossrMobile.Pages
         {
             base.OnAppearing();
 
-            await RecentPageViewModel.ReadRecent();
+            await RecentPageViewModel.ReadRecentAsync();
         }
 
         private async void ListView_OnRefreshing(object sender, EventArgs e)
         {
-            await RecentPageViewModel.ReadRecent();
+            await RecentPageViewModel.ReadRecentAsync();
         }
 
         private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)

@@ -22,12 +22,12 @@ namespace BossrMobile.Pages
         {
             base.OnAppearing();
 
-            await CreaturesPageViewModel.ReadCreatures();
+            await CreaturesPageViewModel.ReadCreaturesAsync();
         }
 
         private async void ListView_OnRefreshing(object sender, EventArgs e)
         {
-            await CreaturesPageViewModel.ReadCreatures();
+            await CreaturesPageViewModel.ReadCreaturesAsync();
         }
 
         private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)

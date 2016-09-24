@@ -1,19 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using BossrMobile.Annotations;
 using BossrMobile.Models;
+using BossrMobile.Models.StatusItems;
+using Humanizer;
+using Xamarin.Forms;
 
 namespace BossrMobile.ViewModels
 {
     public class RecentPageViewModel : INotifyPropertyChanged
     {
         private World selectedWorld;
-        private List<Spawn> recent;
+        private List<RecentItem> recent;
         private bool isLoading;
 
-        public List<Spawn> Recent
+        public List<RecentItem> Recent
         {
             get { return recent; }
             set
@@ -43,12 +48,39 @@ namespace BossrMobile.ViewModels
             }
         }
 
-        public async Task ReadRecent()
+        public async Task ReadRecentAsync()
         {
             IsLoading = true;
             Recent = null;
             if (SelectedWorld != null)
-                //Recent = await App.RestService.ReadRecentAsync(SelectedWorld.Id);
+            {
+                var creatures = await App.RestService.GetCreaturesAsync();
+                var categories = await App.RestService.GetCategoriesAsync();
+                var recentspawns = await App.RestService.GetRecentWorldSpawnsAsync(SelectedWorld.Id);
+
+                List<RecentItem> statuses = new List<RecentItem>();
+                foreach (Spawn spawn in recentspawns.OrderByDescending(x => x.TimeMaxUtc))
+                {
+                    Creature creature = creatures.Single(x => x.Id == spawn.CreatureId);
+                    Category category = null;
+                    if (creature.CategoryId.HasValue)
+                        category = categories.SingleOrDefault(x => x.Id == creature.CategoryId);
+
+                    Color categoryColor = Color.Transparent;
+                    if (category != null)
+                        categoryColor = Color.FromRgb(category.ColorR, category.ColorG, category.ColorB);
+
+                    statuses.Add(new RecentItem
+                    {
+                        CreatureName = creatures.Single(x => x.Id == spawn.CreatureId).Name,
+                        CategoryName = category?.Name,
+                        CategoryColorRgb = categoryColor,
+                        TimeAgo = $"{(DateTime.UtcNow - spawn.TimeMinUtc).Humanize()} ago"
+                    });
+                }
+                Recent = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName).ToList();
+            }
+            
             IsLoading = false;
         }
 

@@ -16,6 +16,9 @@ namespace BossrMobile.Pages
         public UpcomingPage(World selectedWorld)
         {
             InitializeComponent();
+
+            Icon = Device.OnPlatform("clock.png", "", ""); // Todo: -> XAML
+
             BindingContext = new UpcomingPageViewModel();
             UpcomingPageViewModel.SelectedWorld = selectedWorld;
         }
@@ -24,12 +27,12 @@ namespace BossrMobile.Pages
         {
             base.OnAppearing();
 
-            await UpcomingPageViewModel.ReadUpcoming();
+            await UpcomingPageViewModel.ReadUpcomingAsync();
         }
 
         private async void ListView_OnRefreshing(object sender, EventArgs e)
         {
-            await UpcomingPageViewModel.ReadUpcoming();
+            await UpcomingPageViewModel.ReadUpcomingAsync();
         }
 
         private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)

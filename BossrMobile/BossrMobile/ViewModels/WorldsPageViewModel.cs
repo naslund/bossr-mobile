@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,8 @@ namespace BossrMobile.ViewModels
     {
         private bool isLoading;
         private IEnumerable<World> worlds;
+        private IEnumerable<World> filteredWorlds;
+        private string searchCriteria;
 
         public bool IsLoading
         {
@@ -33,11 +36,36 @@ namespace BossrMobile.ViewModels
             }
         }
 
-        public async Task ReadWorlds()
+        public IEnumerable<World> FilteredWorlds
+        {
+            get { return filteredWorlds; }
+            set
+            {
+                filteredWorlds = value;
+                OnPropertyChanged(nameof(FilteredWorlds));
+            }
+        }
+
+        public string SearchCriteria
+        {
+            get { return searchCriteria; }
+            set
+            {
+                searchCriteria = value;
+                OnPropertyChanged(nameof(SearchCriteria));
+            }
+        }
+
+        public async Task ReadWorldsAsync()
         {
             IsLoading = true;
             Worlds = await App.RestService.GetWorldsAsync();
             IsLoading = false;
+        }
+
+        public void FilterWorlds()
+        {
+            FilteredWorlds = string.IsNullOrEmpty(SearchCriteria) ? Worlds : worlds.Where(x => x.Name.ToLower().Contains(SearchCriteria.ToLower()));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

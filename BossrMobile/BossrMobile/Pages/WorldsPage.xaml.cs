@@ -23,12 +23,19 @@ namespace BossrMobile.Pages
         {
             base.OnAppearing();
 
-            await WorldPageViewModel.ReadWorlds();
+            await WorldPageViewModel.ReadWorldsAsync();
+            await Task.Run(() => WorldPageViewModel.FilterWorlds());
         }
 
         private async void ListView_OnRefreshing(object sender, EventArgs e)
         {
-            await WorldPageViewModel.ReadWorlds();
+            await WorldPageViewModel.ReadWorldsAsync();
+            await Task.Run(() => WorldPageViewModel.FilterWorlds());
+        }
+
+        private async void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            await Task.Run(() => WorldPageViewModel.FilterWorlds());
         }
 
         private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)

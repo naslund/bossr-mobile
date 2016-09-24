@@ -22,11 +22,13 @@ namespace BossrMobile.Navigation
                 new MasterPageItem
                 {
                     Title = "Status",
+                    IconSource = "globe24.png",
                     TargetType = typeof(WorldsPage)
                 },
                 new MasterPageItem
                 {
                     Title = "Creatures",
+                    IconSource = "tentacles24.png",
                     TargetType = typeof(CreaturesPage)
                 }
             };

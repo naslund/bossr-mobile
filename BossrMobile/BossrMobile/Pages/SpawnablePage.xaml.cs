@@ -16,6 +16,9 @@ namespace BossrMobile.Pages
         public SpawnablePage(World selectedWorld)
         {
             InitializeComponent();
+
+            Icon = Device.OnPlatform("sword.png", "", ""); // Todo: -> XAML
+
             BindingContext = new SpawnablePageViewModel();
             SpawnablePageViewModel.SelectedWorld = selectedWorld;
         }
@@ -24,12 +27,12 @@ namespace BossrMobile.Pages
         {
             base.OnAppearing();
 
-            await SpawnablePageViewModel.ReadSpawnable();
+            await SpawnablePageViewModel.ReadSpawnableAsync();
         }
 
         private async void ListView_OnRefreshing(object sender, EventArgs e)
         {
-            await SpawnablePageViewModel.ReadSpawnable();
+            await SpawnablePageViewModel.ReadSpawnableAsync();
         }
 
         private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
