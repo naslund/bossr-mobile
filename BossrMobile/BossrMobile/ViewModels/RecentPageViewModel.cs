@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using BossrMobile.Annotations;
 using BossrMobile.Models;
-using BossrMobile.Models.StatusItems;
+using BossrMobile.Models.ViewItems;
 using Humanizer;
 using Xamarin.Forms;
 
@@ -15,10 +15,10 @@ namespace BossrMobile.ViewModels
     public class RecentPageViewModel : INotifyPropertyChanged
     {
         private World selectedWorld;
-        private List<RecentItem> recent;
+        private IEnumerable<CreatureItem> recent;
         private bool isLoading;
 
-        public List<RecentItem> Recent
+        public IEnumerable<CreatureItem> Recent
         {
             get { return recent; }
             set
@@ -58,7 +58,7 @@ namespace BossrMobile.ViewModels
                 var categories = await App.RestService.GetCategoriesAsync();
                 var recentspawns = await App.RestService.GetRecentWorldSpawnsAsync(SelectedWorld.Id);
 
-                List<RecentItem> statuses = new List<RecentItem>();
+                List<CreatureItem> statuses = new List<CreatureItem>();
                 foreach (Spawn spawn in recentspawns.OrderByDescending(x => x.TimeMaxUtc))
                 {
                     Creature creature = creatures.Single(x => x.Id == spawn.CreatureId);
@@ -70,15 +70,15 @@ namespace BossrMobile.ViewModels
                     if (category != null)
                         categoryColor = Color.FromRgb(category.ColorR, category.ColorG, category.ColorB);
 
-                    statuses.Add(new RecentItem
+                    statuses.Add(new CreatureItem
                     {
                         CreatureName = creatures.Single(x => x.Id == spawn.CreatureId).Name,
                         CategoryName = category?.Name,
                         CategoryColorRgb = categoryColor,
-                        TimeAgo = $"{(DateTime.UtcNow - spawn.TimeMinUtc).Humanize()} ago"
+                        Detail = $"{(DateTime.UtcNow - spawn.TimeMinUtc).Humanize()} ago"
                     });
                 }
-                Recent = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName).ToList();
+                Recent = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName);
             }
             
             IsLoading = false;

@@ -42,10 +42,8 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Creature.cs" />
     <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\StatusItems\RecentItem.cs" />
+    <Compile Include="Models\ViewItems\CreatureItem.cs" />
     <Compile Include="Models\Spawn.cs" />
-    <Compile Include="Models\StatusItems\SpawnableItem.cs" />
-    <Compile Include="Models\StatusItems\UpcomingItem.cs" />
     <Compile Include="Models\World.cs" />
     <Compile Include="Navigation\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

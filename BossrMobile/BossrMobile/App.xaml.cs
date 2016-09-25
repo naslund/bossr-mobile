@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BossrMobile.Services;
+﻿using BossrMobile.Services;
 using Xamarin.Forms;
 
 namespace BossrMobile

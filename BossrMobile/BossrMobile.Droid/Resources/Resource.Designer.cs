@@ -1949,10 +1949,10 @@ namespace BossrMobile.Droid
 			public const int design_snackbar_background = 2130837580;
 			
 			// aapt resource value: 0x7f02004d
-			public const int globe24 = 2130837581;
+			public const int globe = 2130837581;
 			
 			// aapt resource value: 0x7f02004e
-			public const int globe60 = 2130837582;
+			public const int hearts = 2130837582;
 			
 			// aapt resource value: 0x7f02004f
 			public const int ic_audiotrack = 2130837583;
@@ -2206,14 +2206,11 @@ namespace BossrMobile.Droid
 			// aapt resource value: 0x7f0200a2
 			public const int mr_ic_play_light = 2130837666;
 			
-			// aapt resource value: 0x7f0200a5
-			public const int notification_template_icon_bg = 2130837669;
+			// aapt resource value: 0x7f0200a4
+			public const int notification_template_icon_bg = 2130837668;
 			
 			// aapt resource value: 0x7f0200a3
-			public const int tentacles24 = 2130837667;
-			
-			// aapt resource value: 0x7f0200a4
-			public const int tentacles60 = 2130837668;
+			public const int tentacles = 2130837667;
 			
 			static Drawable()
 			{

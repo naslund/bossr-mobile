@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using BossrMobile.Annotations;
 using BossrMobile.Models;
-using BossrMobile.Models.StatusItems;
+using BossrMobile.Models.ViewItems;
 using Humanizer;
 using Xamarin.Forms;
 
@@ -15,10 +15,10 @@ namespace BossrMobile.ViewModels
     public class SpawnablePageViewModel : INotifyPropertyChanged
     {
         private World selectedWorld;
-        private List<SpawnableItem> spawnable;
+        private IEnumerable<CreatureItem> spawnable;
         private bool isLoading;
 
-        public List<SpawnableItem> Spawnable
+        public IEnumerable<CreatureItem> Spawnable
         {
             get { return spawnable; }
             set
@@ -58,7 +58,7 @@ namespace BossrMobile.ViewModels
                 IEnumerable<Spawn> spawns = await App.RestService.GetLatestWorldSpawnsAsync(SelectedWorld.Id);
                 IEnumerable<Category> categories = await App.RestService.GetCategoriesAsync();
 
-                List<SpawnableItem> statuses = new List<SpawnableItem>();
+                List<CreatureItem> statuses = new List<CreatureItem>();
                 foreach (Spawn spawn in spawns)
                 {
                     Creature creature = creatures.Single(x => x.Id == spawn.CreatureId);
@@ -75,19 +75,19 @@ namespace BossrMobile.ViewModels
                         spawn.TimeMaxUtc = spawn.TimeMaxUtc.AddHours(creature.HoursBetweenEachSpawnMax);
                     }
 
-                    if (DateTime.UtcNow > spawn.TimeMinUtc && DateTime.UtcNow < spawn.TimeMaxUtc) // If spawnable
+                    if (DateTime.UtcNow > spawn.TimeMinUtc && DateTime.UtcNow < spawn.TimeMaxUtc)
                     {
-                        statuses.Add(new SpawnableItem
+                        statuses.Add(new CreatureItem
                         {
+                            // Missed: {missedSpawns - 1}
                             CreatureName = creature.Name,
-                            TimeLeft = $"{(spawn.TimeMaxUtc - DateTime.UtcNow).Humanize(2)} left",
-                            MissedSpawns = missedSpawns - 1,
+                            Detail = $"{(spawn.TimeMaxUtc - DateTime.UtcNow).Humanize(2)} left", 
                             CategoryName = category?.Name,
                             CategoryColorRgb = Color.FromRgb(category.ColorR, category.ColorG, category.ColorB)
                         });
                     }
                 }
-                Spawnable = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName).ToList();
+                Spawnable = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName);
             }
             IsLoading = false;
         }

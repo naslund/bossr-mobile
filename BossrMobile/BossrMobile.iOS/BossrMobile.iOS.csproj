@@ -153,40 +153,43 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\sword.png" />
+    <BundleResource Include="Resources\icons8\sword.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\sword%402x.png" />
+    <BundleResource Include="Resources\icons8\sword%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\sword%403x.png" />
+    <BundleResource Include="Resources\icons8\sword%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\today.png" />
+    <BundleResource Include="Resources\icons8\today.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\today%402x.png" />
+    <BundleResource Include="Resources\icons8\today%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\today%403x.png" />
+    <BundleResource Include="Resources\icons8\today%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\clock.png" />
+    <BundleResource Include="Resources\icons8\clock.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\clock%402x.png" />
+    <BundleResource Include="Resources\icons8\clock%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\clock%403x.png" />
+    <BundleResource Include="Resources\icons8\clock%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\globe24.png" />
+    <BundleResource Include="Resources\icons8\globe.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\tentacles24.png" />
+    <BundleResource Include="Resources\icons8\tentacles.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\menu24.png" />
+    <BundleResource Include="Resources\icons8\menu24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icons8\hearts24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.2.127\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.2.127\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

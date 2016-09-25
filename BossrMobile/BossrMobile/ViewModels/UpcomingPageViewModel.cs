@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using BossrMobile.Annotations;
 using BossrMobile.Models;
-using BossrMobile.Models.StatusItems;
+using BossrMobile.Models.ViewItems;
 using Humanizer;
 using Xamarin.Forms;
 
@@ -15,10 +15,10 @@ namespace BossrMobile.ViewModels
     public class UpcomingPageViewModel : INotifyPropertyChanged
     {
         private World selectedWorld;
-        private List<UpcomingItem> upcoming;
+        private IEnumerable<CreatureItem> upcoming;
         private bool isLoading;
 
-        public List<UpcomingItem> Upcoming
+        public IEnumerable<CreatureItem> Upcoming
         {
             get { return upcoming; }
             set
@@ -66,7 +66,7 @@ namespace BossrMobile.ViewModels
                 IEnumerable<Spawn> spawns = await App.RestService.GetLatestWorldSpawnsAsync(SelectedWorld.Id);
                 IEnumerable<Category> categories = await App.RestService.GetCategoriesAsync();
 
-                List<UpcomingItem> statuses = new List<UpcomingItem>();
+                List<CreatureItem> statuses = new List<CreatureItem>();
                 foreach (Spawn spawn in spawns.OrderByDescending(x => x.TimeMinUtc))
                 {
                     Creature creature = creatures.Single(x => x.Id == spawn.CreatureId);
@@ -85,17 +85,16 @@ namespace BossrMobile.ViewModels
 
                     if (DateTime.UtcNow < spawn.TimeMinUtc)
                     {
-                        statuses.Add(new UpcomingItem
+                        statuses.Add(new CreatureItem
                         {
                             CreatureName = creature.Name,
-                            TimeLeft = $"in {(DateTime.UtcNow - spawn.TimeMinUtc).Humanize(2)}",
-                            MissedSpawns = missedSpawns - 1,
+                            Detail = $"in {(DateTime.UtcNow - spawn.TimeMinUtc).Humanize(2)}",
                             CategoryName = category?.Name,
                             CategoryColorRgb = Color.FromRgb(category.ColorR, category.ColorG, category.ColorB)
                         });
                     }
                 }
-                Upcoming = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName).ToList();
+                Upcoming = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName);
             }
             IsLoading = false;
         }

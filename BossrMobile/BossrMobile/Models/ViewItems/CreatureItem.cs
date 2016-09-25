@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace BossrMobile.Models.StatusItems
+namespace BossrMobile.Models.ViewItems
 {
-    public class SpawnableItem
+    public class CreatureItem
     {
         public string CreatureName { get; set; }
-        public string TimeLeft { get; set; }
-        public int MissedSpawns { get; set; }
+        public string Detail { get; set; }
         public string CategoryName { get; set; }
         public Color CategoryColorRgb { get; set; }
     }
