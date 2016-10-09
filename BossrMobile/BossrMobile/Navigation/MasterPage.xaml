@@ -8,15 +8,11 @@
     <StackLayout>
       <StackLayout Padding="20"
                    BackgroundColor="#8BC34A">
-        <Label Text="Bossr"
-               HorizontalOptions="Center"
-               FontSize="30"
-               TextColor="White" />
+        <Image Source="bossrtext.png" />
       </StackLayout>
       <StackLayout VerticalOptions="FillAndExpand">
         <ListView x:Name="listView"
-                  VerticalOptions="FillAndExpand"
-                  SeparatorVisibility="None">
+                  VerticalOptions="FillAndExpand">
           <ListView.ItemTemplate>
             <DataTemplate>
               <ViewCell>

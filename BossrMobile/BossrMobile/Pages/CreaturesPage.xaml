@@ -1,38 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:BossrMobile.Controls;assembly=BossrMobile"
              x:Class="BossrMobile.Pages.CreaturesPage"
              Title="Creatures">
-  <ListView ItemsSource="{Binding CreatureItems}" 
-            ItemTapped="ListView_OnItemTapped" 
-            Refreshing="ListView_OnRefreshing" 
-            HasUnevenRows="True" 
-            IsPullToRefreshEnabled="True" 
+  <StackLayout>
+    <controls:Alert Preset="{Binding AlertPreset}" />
+    <ListView ItemsSource="{Binding CreatureItems}"
+            ItemTapped="ListView_OnItemTapped"
+            Refreshing="ListView_OnRefreshing"
+            HasUnevenRows="True"
+            IsPullToRefreshEnabled="True"
             IsRefreshing="{Binding IsLoading}">
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-          <StackLayout>
-            <StackLayout Orientation="Horizontal">
-              <StackLayout BackgroundColor="{Binding CategoryColorRgb}"
-                           WidthRequest="100"
-                           MinimumWidthRequest="100"
-                           Margin="10">
-                <Label Text="{Binding CategoryName}"
-                       TextColor="White"
-                       FontAttributes="Bold"
-                       HorizontalTextAlignment="Center"
-                       VerticalOptions="CenterAndExpand"
-                       HorizontalOptions="CenterAndExpand" />
-              </StackLayout>
-              <StackLayout Padding="5">
-                <Label Text="{Binding CreatureName}" />
-                <Label Text="{Binding Detail}" />
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout>
+              <StackLayout Orientation="Horizontal">
+                <StackLayout BackgroundColor="{Binding CategoryColorRgb}"
+                             WidthRequest="100"
+                             MinimumWidthRequest="100"
+                             Margin="10">
+                  <Label Text="{Binding CategoryName}"
+                         TextColor="White"
+                         FontAttributes="Bold"
+                         HorizontalTextAlignment="Center"
+                         VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="CenterAndExpand" />
+                </StackLayout>
+                <StackLayout Padding="5">
+                  <Label Text="{Binding CreatureName}" />
+                  <Label Text="{Binding Detail}" />
+                </StackLayout>
               </StackLayout>
             </StackLayout>
-          </StackLayout>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-  </ListView>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackLayout>
 </ContentPage>

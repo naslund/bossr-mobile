@@ -6,19 +6,30 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using BossrMobile.Annotations;
+using BossrMobile.Controls;
 using BossrMobile.Models;
 using BossrMobile.Models.ViewItems;
 using BossrMobile.Utilities;
 using Humanizer;
+using Humanizer.Localisation;
 using Xamarin.Forms;
 
 namespace BossrMobile.ViewModels
 {
     public class CreaturesPageViewModel : INotifyPropertyChanged
     {
+        private AlertPreset alertPreset;
+        public AlertPreset AlertPreset
+        {
+            get { return alertPreset; }
+            set
+            {
+                alertPreset = value;
+                OnPropertyChanged(nameof(AlertPreset));
+            }
+        }
+        
         private bool isLoading;
-        private IEnumerable<CreatureItem> creatureItems;
-
         public bool IsLoading
         {
             get { return isLoading; }
@@ -29,6 +40,7 @@ namespace BossrMobile.ViewModels
             }
         }
 
+        private IEnumerable<CreatureItem> creatureItems;
         public IEnumerable<CreatureItem> CreatureItems
         {
             get { return creatureItems; }
@@ -43,25 +55,35 @@ namespace BossrMobile.ViewModels
         {
             IsLoading = true;
 
-            var creatures = await App.RestService.GetCreaturesAsync();
-            var categories = await App.RestService.GetCategoriesAsync();
+            await Task.Delay(200);
 
-            var items = new List<CreatureItem>();
-
-            foreach (Creature creature in creatures)
+            try
             {
-                Category category = categories.SingleOrDefault(x => creature.CategoryId != null && x.Id == creature.CategoryId.Value);
+                var creatures = await App.RestService.GetCreaturesAsync();
+                var categories = await App.RestService.GetCategoriesAsync();
 
-                items.Add(new CreatureItem
+                var items = new List<CreatureItem>();
+
+                foreach (Creature creature in creatures)
                 {
-                    CreatureName = creature.Name,
-                    Detail = $"Spawns every {TimeSpan.FromHours(creature.HoursBetweenEachSpawnMin).Humanize()} - {TimeSpan.FromHours(creature.HoursBetweenEachSpawnMax).Humanize()}",
-                    CategoryName = category == null ? "Uncategorized" : category.Name,
-                    CategoryColorRgb = category == null ? Color.Gray : Color.FromRgb(category.ColorR, category.ColorG, category.ColorB)
-                });
-            }
+                    Category category = categories.SingleOrDefault(x => creature.CategoryId != null && x.Id == creature.CategoryId.Value);
 
-            CreatureItems = items.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName);
+                    items.Add(new CreatureItem
+                    {
+                        CreatureName = creature.Name,
+                        Detail = $"{TimeSpan.FromHours(creature.HoursBetweenEachSpawnMin).Humanize(maxUnit: TimeUnit.Day)} - {TimeSpan.FromHours(creature.HoursBetweenEachSpawnMax).Humanize(maxUnit: TimeUnit.Day)}",
+                        CategoryName = category == null ? "Uncategorized" : category.Name,
+                        CategoryColorRgb = category == null ? Color.Gray : Color.FromRgb(category.ColorR, category.ColorG, category.ColorB)
+                    });
+                }
+
+                CreatureItems = items.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName);
+                AlertPreset = AlertPreset.None;
+            }
+            catch (Exception)
+            {
+                AlertPreset = AlertPreset.NoConnection;
+            }
 
             IsLoading = false;
         }

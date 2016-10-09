@@ -1,10 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:BossrMobile.Controls;assembly=BossrMobile"
              x:Class="BossrMobile.Pages.WorldsPage"
              Title="Status">
   <StackLayout>
-    <SearchBar x:Name="SearchBar" Placeholder="Antica" Text="{Binding SearchCriteria}" HorizontalOptions="FillAndExpand" TextChanged="SearchBar_OnTextChanged" />
+    <controls:Alert Preset="{Binding AlertPreset}" />
+    <SearchBar x:Name="SearchBar" 
+               Placeholder="{Binding SearchPlaceholder}"
+               Text="{Binding SearchCriteria}"
+               HorizontalOptions="FillAndExpand"
+               TextChanged="SearchBar_OnTextChanged" />
     <ListView x:Name="ListView"
               ItemsSource="{Binding FilteredWorlds}"
               IsPullToRefreshEnabled="True"
@@ -13,7 +19,8 @@
               IsRefreshing="{Binding IsLoading}">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <TextCell Text="{Binding Name}" Detail="{Binding LastScrapeTime, Converter={StaticResource DateTimeOffsetToHoursAgoConverter}}" />
+          <TextCell Text="{Binding Name}" 
+                    Detail="{Binding LastScrapeTime, Converter={StaticResource DateTimeOffsetToHoursAgoConverter}}" />
         </DataTemplate>
       </ListView.ItemTemplate>
     </ListView>

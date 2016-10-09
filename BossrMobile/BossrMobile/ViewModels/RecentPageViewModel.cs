@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using BossrMobile.Annotations;
+using BossrMobile.Controls;
 using BossrMobile.Models;
 using BossrMobile.Models.ViewItems;
 using Humanizer;
@@ -14,10 +15,18 @@ namespace BossrMobile.ViewModels
 {
     public class RecentPageViewModel : INotifyPropertyChanged
     {
-        private World selectedWorld;
+        private AlertPreset alertPreset;
+        public AlertPreset AlertPreset
+        {
+            get { return alertPreset; }
+            set
+            {
+                alertPreset = value;
+                OnPropertyChanged(nameof(AlertPreset));
+            }
+        }
+        
         private IEnumerable<CreatureItem> recent;
-        private bool isLoading;
-
         public IEnumerable<CreatureItem> Recent
         {
             get { return recent; }
@@ -28,6 +37,7 @@ namespace BossrMobile.ViewModels
             }
         }
 
+        private World selectedWorld;
         public World SelectedWorld
         {
             get { return selectedWorld; }
@@ -38,6 +48,7 @@ namespace BossrMobile.ViewModels
             }
         }
 
+        private bool isLoading;
         public bool IsLoading
         {
             get { return isLoading; }
@@ -51,34 +62,44 @@ namespace BossrMobile.ViewModels
         public async Task ReadRecentAsync()
         {
             IsLoading = true;
-            Recent = null;
-            if (SelectedWorld != null)
+
+            await Task.Delay(200);
+
+            try
             {
-                var creatures = await App.RestService.GetCreaturesAsync();
-                var categories = await App.RestService.GetCategoriesAsync();
-                var recentspawns = await App.RestService.GetRecentWorldSpawnsAsync(SelectedWorld.Id);
-
-                List<CreatureItem> statuses = new List<CreatureItem>();
-                foreach (Spawn spawn in recentspawns.OrderByDescending(x => x.TimeMaxUtc))
+                if (SelectedWorld != null)
                 {
-                    Creature creature = creatures.Single(x => x.Id == spawn.CreatureId);
-                    Category category = null;
-                    if (creature.CategoryId.HasValue)
-                        category = categories.SingleOrDefault(x => x.Id == creature.CategoryId);
+                    var creatures = await App.RestService.GetCreaturesAsync();
+                    var categories = await App.RestService.GetCategoriesAsync();
+                    var recentspawns = await App.RestService.GetRecentWorldSpawnsAsync(SelectedWorld.Id);
 
-                    Color categoryColor = Color.Transparent;
-                    if (category != null)
-                        categoryColor = Color.FromRgb(category.ColorR, category.ColorG, category.ColorB);
-
-                    statuses.Add(new CreatureItem
+                    List<CreatureItem> statuses = new List<CreatureItem>();
+                    foreach (Spawn spawn in recentspawns.OrderByDescending(x => x.TimeMaxUtc))
                     {
-                        CreatureName = creatures.Single(x => x.Id == spawn.CreatureId).Name,
-                        CategoryName = category?.Name,
-                        CategoryColorRgb = categoryColor,
-                        Detail = $"{(DateTime.UtcNow - spawn.TimeMinUtc).Humanize()} ago"
-                    });
+                        Creature creature = creatures.Single(x => x.Id == spawn.CreatureId);
+                        Category category = null;
+                        if (creature.CategoryId.HasValue)
+                            category = categories.SingleOrDefault(x => x.Id == creature.CategoryId);
+
+                        Color categoryColor = Color.Transparent;
+                        if (category != null)
+                            categoryColor = Color.FromRgb(category.ColorR, category.ColorG, category.ColorB);
+
+                        statuses.Add(new CreatureItem
+                        {
+                            CreatureName = creatures.Single(x => x.Id == spawn.CreatureId).Name,
+                            CategoryName = category?.Name,
+                            CategoryColorRgb = categoryColor,
+                            Detail = $"{(DateTime.UtcNow - spawn.TimeMinUtc).Humanize()} ago"
+                        });
+                    }
+                    Recent = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName);
+                    AlertPreset = AlertPreset.None;
                 }
-                Recent = statuses.OrderBy(x => x.CategoryName).ThenBy(x => x.CreatureName);
+            }
+            catch (Exception)
+            {
+                AlertPreset = AlertPreset.NoConnection;
             }
             
             IsLoading = false;

@@ -7,13 +7,12 @@ namespace BossrMobile.ViewModels
 {
     public class StatusPageViewModel : INotifyPropertyChanged
     {
-        private World selectedWorld;
-
         public StatusPageViewModel(World selectedWorld)
         {
-            this.selectedWorld = selectedWorld;
+            SelectedWorld = selectedWorld;
         }
 
+        private World selectedWorld;
         public World SelectedWorld
         {
             get { return selectedWorld; }
